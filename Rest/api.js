@@ -75,10 +75,10 @@ async function klines(
   const close = [];
 
   call.map((data) => {
-    open.push(data[1]);
-    high.push(data[2]);
-    low.push(data[3]);
-    close.push(data[4]);
+    open.unshift(data[1]);
+    high.unshift(data[2]);
+    low.unshift(data[3]);
+    close.unshift(data[4]);
   });
 
   return { open: open, high: high, low: low, close: close };

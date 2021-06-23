@@ -1,5 +1,5 @@
 // const api = require("./api");
-const getHL = require("./smaHighsLows");
+const getHL = require("../Utils/smaHighsLows");
 
 async function getChikou(close, high, low, lengthOne, lengthTwo, lengthThree) {
   try {
@@ -49,9 +49,9 @@ async function getIchimoku(
   lengthThree = 120
 ) {
   try {
-    const close = data.close.reverse();
-    const high = data.high.reverse();
-    const low = data.low.reverse();
+    const close = data.close;
+    const high = data.high;
+    const low = data.low;
 
     let tenkan = getHL(high, low, lengthOne);
     let kijun = getHL(high, low, lengthTwo);

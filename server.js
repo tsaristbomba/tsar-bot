@@ -1,28 +1,48 @@
 const binance = require("binance");
-const api = require("./Rest/api");
+// const api = require("./Rest/api");
 const getHistory = require("./Rest/getHistory");
+const getIchimoku = require("./Signals/ichimoku");
+const getSignal = require("./Signals/signal");
 
 const symbol = process.env.SYMBOL;
 const interval = process.env.INTERVAL;
+const crawlerInterval = process.env.CRAWLER_INTERVAL;
 
 const binanceWS = new binance.BinanceWS(true);
 
 let historyClose;
 let historyHigh;
 let historyLow;
+let start = false;
 
 const getHistoricData = async () => {
-  let historicalData = await getHistory();
+  const historicalData = await getHistory();
 
   historyClose = historicalData.close;
   historyHigh = historicalData.high;
   historyLow = historicalData.low;
 };
-getHistoricData();
+setInterval(async () => {
+  await getHistoricData();
 
-binanceWS.onKline(symbol, interval, (data) => {
-  console.log(historyClose[0]);
-  console.log(data.kline.close);
+  start = true;
+}, crawlerInterval);
+
+binanceWS.onKline(symbol, interval, async (data) => {
+  if (start) {
+    const updatedPrice = data.kline.close;
+    const historicData = {
+      close: historyClose,
+      high: historyHigh,
+      low: historyLow,
+    };
+
+    const ichimoku = await getIchimoku(historicData, 20, 60, 160);
+    const signal = await getSignal(ichimoku, updatedPrice);
+
+    console.log(signal);
+    console.log(updatedPrice);
+  }
 });
 
 /*

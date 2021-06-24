@@ -3,7 +3,7 @@ const getPercentage = require("../Utils/getPercentage");
 async function getSignal(kumo, price) {
   try {
     const updatedPrice = price;
-    const notFarFromKijun =
+    const farFromKijun =
       getPercentage(kumo.kijun, updatedPrice) > process.env.TOLERANCE;
 
     const bullish =
@@ -24,7 +24,7 @@ async function getSignal(kumo, price) {
       updatedPrice > kumo.spanBPast &&
       updatedPrice > kumo.spanAPast;
 
-    return { buy: bullish && notFarFromKijun, close: close, sell: bearish };
+    return { buy: bullish && !farFromKijun, close: close, sell: bearish };
   } catch (error) {
     console.log(error);
   }

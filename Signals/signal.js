@@ -6,8 +6,6 @@ async function getSignal(kumo, price) {
     const farFromKijun =
       getPercentage(kumo.kijun, updatedPrice) > process.env.TOLERANCE;
 
-    console.log(kumo.stop);
-
     const bullish =
       kumo.tenkan > kumo.kijun &&
       kumo.spanAFuture > kumo.spanBFuture &&

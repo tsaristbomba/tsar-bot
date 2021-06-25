@@ -53,15 +53,15 @@ async function getIchimoku(
     const high = data.high;
     const low = data.low;
 
-    let tenkan = getHL(high, low, lengthOne);
-    let kijun = getHL(high, low, lengthTwo);
-    let spanA =
+    const tenkan = getHL(high, low, lengthOne);
+    const kijun = getHL(high, low, lengthTwo);
+    const spanA =
       (getHL(high, low, lengthOne + 30, 31) +
         getHL(high, low, lengthTwo + 30, 31)) /
       2;
-    let spanB = getHL(high, low, lengthThree + 30, 31);
-    let spanAFuture = (tenkan + kijun) / 2;
-    let spanBFuture = getHL(high, low, lengthThree);
+    const spanB = getHL(high, low, lengthThree + 30, 31);
+    const spanAFuture = (tenkan + kijun) / 2;
+    const spanBFuture = getHL(high, low, lengthThree);
     const chikou = await getChikou(
       close,
       high,
@@ -69,6 +69,9 @@ async function getIchimoku(
       lengthOne,
       lengthTwo,
       lengthThree
+    );
+    const stop = parseFloat(
+      (kijun - kijun * process.env.STOP_TOLERANCE).toFixed(4)
     );
 
     return {
@@ -81,6 +84,7 @@ async function getIchimoku(
       spanAFuture: spanAFuture,
       spanBFuture: spanBFuture,
       chikou: chikou,
+      stop: stop,
     };
   } catch (error) {
     console.log(error);

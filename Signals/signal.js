@@ -6,6 +6,8 @@ async function getSignal(kumo, price) {
     const farFromKijun =
       getPercentage(kumo.kijun, updatedPrice) > process.env.TOLERANCE;
 
+    console.log(kumo.stop);
+
     const bullish =
       kumo.tenkan > kumo.kijun &&
       kumo.spanAFuture > kumo.spanBFuture &&
@@ -19,10 +21,7 @@ async function getSignal(kumo, price) {
       kumo.price < kumo.spanAPast &&
       kumo.chikou === "BEAR";
 
-    const close =
-      kumo.tenkan < kumo.kijun &&
-      updatedPrice > kumo.spanBPast &&
-      updatedPrice > kumo.spanAPast;
+    const close = kumo.tenkan < kumo.kijun || updatedPrice > kumo.stop;
 
     return { buy: bullish && !farFromKijun, close: close, sell: bearish };
   } catch (error) {

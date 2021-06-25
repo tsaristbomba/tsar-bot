@@ -65,6 +65,9 @@ binanceWS.onKline(symbol, interval, async (data) => {
       buyPrice = updatedPrice;
       console.log(`-Bought ${order.toFixed(8)} at $${buyPrice} BTC`);
 
+      // Stop order on kijun
+      // ...
+
       openOrder = true;
     }
     if (close && openOrder) {

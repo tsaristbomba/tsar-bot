@@ -19,7 +19,7 @@ async function getSignal(kumo, price) {
       kumo.price < kumo.spanAPast &&
       kumo.chikou === "BEAR";
 
-    const close = kumo.tenkan < kumo.kijun || updatedPrice > kumo.stop;
+    const close = kumo.tenkan < kumo.kijun || updatedPrice <= kumo.stop;
 
     return { buy: bullish && !farFromKijun, close: close, sell: bearish };
   } catch (error) {

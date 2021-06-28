@@ -21,6 +21,8 @@ let balance = 100;
 let orderCash = 0;
 let order = 0;
 let buyPrice = 0;
+let buyTest = false;
+let closeTest = false;
 //
 console.log("Scanning market...");
 
@@ -33,6 +35,10 @@ const getHistoricData = async () => {
 };
 setInterval(async () => {
   await getHistoricData();
+
+  //test
+  //buyTest = true;
+  //
 
   start = true;
 }, crawlerInterval);
@@ -56,7 +62,7 @@ binanceWS.onKline(symbol, interval, async (data) => {
     const buy = signal.buy;
     const close = signal.close;
 
-    if (buy && !openOrder) {
+    if (buy && !openOrder && !close) {
       // new order
       orderCash = balance * 0.15;
       const fee = orderCash * 0.001;
@@ -69,6 +75,10 @@ binanceWS.onKline(symbol, interval, async (data) => {
       // ...
 
       openOrder = true;
+
+      //test
+      //closeTest = true;
+      //
     }
     if (close && openOrder) {
       // close order
@@ -85,6 +95,10 @@ binanceWS.onKline(symbol, interval, async (data) => {
       );
 
       openOrder = false;
+
+      //test
+      //buyTest = false;
+      //
     }
   }
 });

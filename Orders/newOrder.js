@@ -1,4 +1,4 @@
-const privateCall = require("../Rest/api");
+const privateCall = require("../API/api");
 
 async function newOrder(
   symbol,

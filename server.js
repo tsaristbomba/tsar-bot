@@ -1,8 +1,11 @@
 const binance = require("binance");
-const getHistory = require("./Rest/getHistory");
+const getHistory = require("./API/getHistory");
 const getIchimoku = require("./Signals/ichimoku");
 const getSignal = require("./Signals/signal");
 const getPercentage = require("./Utils/getPercentage");
+
+// TODO
+// ALERT WHEN TRADE IS PROFITABLE
 
 const symbol = process.env.SYMBOL;
 const interval = process.env.INTERVAL;
@@ -56,13 +59,13 @@ binanceWS.onKline(symbol, interval, async (data) => {
       low: historyLow,
     };
 
-    const ichimoku = await getIchimoku(historicData, 20, 60, 160);
+    const ichimoku = await getIchimoku(historicData, 20, 65, 160);
     const signal = await getSignal(ichimoku, updatedPrice);
 
     const buy = signal.buy;
     const close = signal.close;
 
-    if (buy && !openOrder && !close) {
+    if (buy && !openOrder) {
       // new order
       orderCash = balance * 0.15;
       const fee = orderCash * 0.001;

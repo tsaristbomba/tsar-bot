@@ -1,4 +1,4 @@
-const api = require("../Rest/api");
+const api = require("./api");
 
 const symbol = process.env.SYMBOL;
 const interval = process.env.INTERVAL;

@@ -2,7 +2,7 @@ const getPercentage = require("../Utils/getPercentage");
 
 async function getSignal(kumo, price) {
   try {
-    const updatedPrice = price;
+    const updatedPrice = parseFloat(parseFloat(price).toFixed(2));
     const farFromKijun =
       getPercentage(kumo.kijun, updatedPrice) > process.env.TOLERANCE;
 

@@ -59,7 +59,7 @@ binanceWS.onKline(symbol, interval, async (data) => {
       low: historyLow,
     };
 
-    const ichimoku = await getIchimoku(historicData, 20, 65, 160);
+    const ichimoku = await getIchimoku(historicData, 20, 60, 120);
     const signal = await getSignal(ichimoku, updatedPrice);
 
     const buy = signal.buy;
